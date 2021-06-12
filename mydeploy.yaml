@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: traildep
+  name: traildep
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: traildep
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: traildep
+    spec:
+      containers:
+      - image: sreeharshav/rollingupdate:v5
+        name: rollingupdate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: traildep
+  name: traildep
+spec:
+  type: NodePort
+  ports:
+  - port: 8300
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: traildep
